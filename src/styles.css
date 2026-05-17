@@ -15,6 +15,8 @@ body {
   min-width: 320px;
   min-height: 100vh;
   background: #0f172a;
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
 }
 
 button,
@@ -46,8 +48,11 @@ select {
 
 .app-shell {
   min-height: 100vh;
+  min-height: 100dvh;
   background: var(--theme-background);
   color: var(--theme-text);
+  padding-top: max(1.25rem, env(safe-area-inset-top));
+  padding-bottom: max(1.25rem, env(safe-area-inset-bottom));
   transition: background 240ms ease, color 240ms ease;
 }
 
