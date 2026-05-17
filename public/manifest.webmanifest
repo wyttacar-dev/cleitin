@@ -1,0 +1,17 @@
+{
+  "name": "Cleitin Cobranças",
+  "short_name": "Cleitin",
+  "description": "Cleitin cobra suas tarefas com humor e XP.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#111827",
+  "icons": [
+    {
+      "src": "/pet-icon.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Limpando cache</title>
+    <style>
+      body {
+        align-items: center;
+        background: #0f172a;
+        color: #f8fafc;
+        display: flex;
+        font-family: Arial, sans-serif;
+        justify-content: center;
+        margin: 0;
+        min-height: 100vh;
+      }
+    </style>
+  </head>
+  <body>
+    Limpando cache...
+    <script>
+      async function clearAppCache() {
+        if ("serviceWorker" in navigator) {
+          const registrations = await navigator.serviceWorker.getRegistrations();
+          await Promise.all(registrations.map((registration) => registration.unregister()));
+        }
+
+        if ("caches" in window) {
+          const keys = await caches.keys();
+          await Promise.all(keys.map((key) => caches.delete(key)));
+        }
+
+        location.replace("/");
+      }
+
+      clearAppCache().catch(() => location.replace("/"));
+    </script>
+  </body>
+</html>

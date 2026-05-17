@@ -1,0 +1,311 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background: #0f172a;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+@layer components {
+  .glass {
+    border: 1px solid var(--theme-border, rgba(255, 255, 255, 0.1));
+    background: var(--theme-card, rgba(255, 255, 255, 0.075));
+    color: var(--theme-text, #ffffff);
+    @apply shadow-glow backdrop-blur-2xl;
+  }
+
+  .soft-button {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-3 font-bold text-slate-950 transition hover:-translate-y-0.5 active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-50;
+  }
+
+  .input {
+    border-color: var(--theme-border, rgba(255, 255, 255, 0.1));
+    background: rgba(15, 23, 42, 0.4);
+    color: var(--theme-text, #ffffff);
+    @apply w-full rounded-xl px-4 py-3 outline-none transition placeholder:text-slate-500 focus:ring-4 focus:ring-teal-300/10;
+  }
+}
+
+.app-shell {
+  min-height: 100vh;
+  background: var(--theme-background);
+  color: var(--theme-text);
+  transition: background 240ms ease, color 240ms ease;
+}
+
+.pet-neutral {
+  animation: floaty 4s ease-in-out infinite;
+}
+
+.pet-happy {
+  animation: floaty 3.5s ease-in-out infinite;
+}
+
+.pet-angry {
+  animation: floaty 4s ease-in-out infinite;
+}
+
+.pet-disappointed {
+  animation: disappointed 3s ease-in-out infinite;
+  filter: saturate(0.78);
+}
+
+.pet-excited {
+  animation: celebrate 0.8s ease-in-out infinite;
+}
+
+.pet-stage {
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.pet-svg {
+  position: relative;
+  z-index: 10;
+  width: min(100%, 210px);
+  height: auto;
+  animation: pet-breathe 3.8s ease-in-out infinite;
+}
+
+.robot-mascot {
+  position: relative;
+  z-index: 10;
+  width: min(100%, 220px);
+  height: auto;
+  overflow: visible;
+  animation: robot-float 4s ease-in-out infinite;
+}
+
+.robot-mood-angry {
+  animation: robot-float 4s ease-in-out infinite;
+}
+
+.robot-mood-excited {
+  animation: robot-excited 0.82s ease-in-out infinite;
+}
+
+.robot-antennas {
+  transform-origin: 110px 62px;
+  animation: robot-antenna-sway 3.2s ease-in-out infinite;
+}
+
+.robot-screen-sweep {
+  stroke-dasharray: 50 130;
+  animation: robot-screen-shine 3.1s ease-in-out infinite;
+}
+
+.robot-eye {
+  transform-origin: center;
+  animation: robot-eye-blink 5.4s infinite;
+}
+
+.pet-eye {
+  transform-origin: center;
+  animation: pet-eye-blink 5.2s infinite;
+}
+
+.pet-face {
+  transition: transform 180ms ease, filter 180ms ease;
+}
+
+.pet-angry .pet-face {
+  filter: drop-shadow(0 0 10px rgba(251, 113, 133, 0.65));
+  transform: translateY(-1px);
+}
+
+.pet-disappointed .pet-face {
+  transform: translateY(5px);
+}
+
+.pet-excited .pet-face,
+.pet-happy .pet-face {
+  filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.2));
+}
+
+.pet-wrapper {
+  --glasses-left: 23%;
+  --glasses-top: 33%;
+  --glasses-width: 54%;
+  --glasses-height: 24%;
+}
+
+.pet-anchor-robot {
+  --glasses-top: 32%;
+  --glasses-width: 58%;
+  --glasses-left: 21%;
+}
+
+.pet-anchor-alien {
+  --glasses-top: 31%;
+}
+
+.pet-anchor-cat,
+.pet-anchor-panda {
+  --glasses-top: 34%;
+}
+
+.pet-anchor-frog {
+  --glasses-top: 32%;
+}
+
+.pet-anchor-demon {
+  --glasses-top: 34%;
+}
+
+.pet-anchor-skull {
+  --glasses-top: 32%;
+}
+
+.glasses-layer {
+  pointer-events: none;
+  position: absolute;
+  left: var(--glasses-left);
+  top: var(--glasses-top);
+  z-index: 28;
+  width: var(--glasses-width);
+  height: var(--glasses-height);
+  transform-origin: center;
+}
+
+.glasses-svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  transform: translateZ(0);
+}
+
+.glasses-shine {
+  stroke-dasharray: 42 120;
+  animation: lens-shine 3.4s ease-in-out infinite;
+}
+
+.glasses-preview {
+  display: grid;
+  height: 58px;
+  width: 96px;
+  place-items: center;
+  border-radius: 16px;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.03)),
+    radial-gradient(circle at 30% 20%, rgba(34, 211, 238, 0.2), transparent 44%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18), 0 12px 30px rgba(0, 0, 0, 0.18);
+}
+
+.glasses-preview .glasses-svg {
+  width: 92%;
+  height: 78%;
+}
+
+.glasses-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.glasses-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.12), transparent 34%, rgba(34, 211, 238, 0.12));
+  opacity: 0;
+  transition: opacity 180ms ease;
+}
+
+.glasses-card:hover::before {
+  opacity: 1;
+}
+
+.glasses-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.pet-spark {
+  transform-origin: center;
+  animation: spark-pop 1.7s ease-in-out infinite;
+}
+
+.delay-150 {
+  animation-delay: 150ms;
+}
+
+.delay-300 {
+  animation-delay: 300ms;
+}
+
+@keyframes disappointed {
+  0%, 100% { transform: translateY(0) scale(0.98); opacity: 0.9; }
+  50% { transform: translateY(6px) scale(0.96); opacity: 0.72; }
+}
+
+@keyframes celebrate {
+  0%, 100% { transform: translateY(0) rotate(0) scale(1); }
+  50% { transform: translateY(-12px) rotate(3deg) scale(1.04); }
+}
+
+@keyframes blink {
+  0%, 92%, 100% { opacity: 0; transform: scaleY(1); }
+  94%, 96% { opacity: 1; transform: scaleY(0.45); }
+}
+
+@keyframes pet-breathe {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-4px) scale(1.015); }
+}
+
+@keyframes robot-float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-8px) rotate(0.6deg); }
+}
+
+@keyframes robot-excited {
+  0%, 100% { transform: translateY(0) scale(1); }
+  45% { transform: translateY(-12px) scale(1.04); }
+}
+
+@keyframes robot-antenna-sway {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(2.4deg); }
+}
+
+@keyframes robot-screen-shine {
+  0%, 100% { stroke-dashoffset: 80; opacity: 0.12; }
+  50% { stroke-dashoffset: 0; opacity: 0.52; }
+}
+
+@keyframes robot-eye-blink {
+  0%, 91%, 100% { transform: scaleY(1); }
+  93%, 95% { transform: scaleY(0.08); }
+}
+
+@keyframes pet-eye-blink {
+  0%, 91%, 100% { transform: scaleY(1); }
+  93%, 95% { transform: scaleY(0.08); }
+}
+
+@keyframes lens-shine {
+  0%, 100% { stroke-dashoffset: 90; opacity: 0.35; }
+  45%, 55% { stroke-dashoffset: 0; opacity: 0.95; }
+}
+
+@keyframes spark-pop {
+  0%, 100% { opacity: 0.35; transform: scale(0.8) rotate(0deg); }
+  50% { opacity: 1; transform: scale(1.12) rotate(12deg); }
+}

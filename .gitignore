@@ -1,0 +1,8 @@
+node_modules/
+dist/
+server/.baileys-auth/
+*.log
+.env
+.env.*
+!.env.example
+server/.env
