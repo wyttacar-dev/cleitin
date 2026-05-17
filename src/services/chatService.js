@@ -1,59 +1,17 @@
 import { loadMemory } from "./memoryService";
+import { sendMessageToCleitin } from "./groqChatService";
 
 const API_BASE = import.meta.env.VITE_API_URL || "/api";
-const FALLBACK_API_BASES = import.meta.env.DEV ? ["http://localhost:3001/api", "http://localhost:3002/api"] : [];
-
-async function postChat(body) {
-  const bases = [API_BASE, ...FALLBACK_API_BASES].filter((base, index, list) => base && list.indexOf(base) === index);
-  let lastError = null;
-
-  for (const base of bases) {
-    try {
-      const response = await fetch(`${base}/chat`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(body),
-      });
-      const payload = await response.json().catch(() => ({}));
-
-      if (!response.ok) {
-        lastError = new Error(payload.error || "Cleitin nao conseguiu falar com a IA agora.");
-        if (response.status !== 404 && response.status !== 503) throw lastError;
-        continue;
-      }
-
-      return payload;
-    } catch (error) {
-      lastError = error;
-    }
-  }
-
-  throw lastError || new Error("Cleitin nao conseguiu falar com a IA agora.");
-}
 
 export async function getAiHealth() {
-  const bases = [API_BASE, ...FALLBACK_API_BASES].filter((base, index, list) => base && list.indexOf(base) === index);
-  let lastError = null;
+  const response = await fetch(`${API_BASE}/health`);
+  const payload = await response.json().catch(() => ({}));
 
-  for (const base of bases) {
-    try {
-      const response = await fetch(`${base}/health`);
-      const payload = await response.json().catch(() => ({}));
-
-      if (!response.ok) {
-        lastError = new Error(payload.error || "Nao foi possivel verificar a IA.");
-        continue;
-      }
-
-      return payload;
-    } catch (error) {
-      lastError = error;
-    }
+  if (!response.ok) {
+    throw new Error(payload.error || "Nao foi possivel verificar a IA.");
   }
 
-  throw lastError || new Error("Nao foi possivel verificar a IA.");
+  return payload;
 }
 
 export async function sendMessageToPet({
@@ -64,11 +22,12 @@ export async function sendMessageToPet({
   petType,
   memory = loadMemory(),
 }) {
-  const payload = await postChat({
+  const payload = await sendMessageToCleitin({
     message,
     userProfile,
     memory,
     tasks,
+    petMood: mood,
     mood,
     petType,
   });
